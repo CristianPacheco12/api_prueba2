@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 //const hostname = "127.0.0.1";
 const hostname = "192.168.137.114";
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; 
 
 // Configuración de CORS
 const corsOptions = {
