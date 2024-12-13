@@ -44,11 +44,24 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // Conexión a la base de datos MySQL
-const sequelize = new Sequelize("prueba1", "root", "", {
-    host: "localhost",
-    dialect: "mysql",
-});
-
+const sequelize = new Sequelize(
+    process.env.DB_NAME, // Nombre de la base de datos
+    process.env.DB_USER, // Usuario de la base de datos
+    process.env.DB_PASSWORD, // Contraseña de la base de datos
+    {
+      host: process.env.DB_HOST, // Host (servidor de la base de datos)
+      port: process.env.DB_PORT || 3306, // Puerto (por defecto 3306)
+      dialect: "mysql", // Tipo de base de datos
+      dialectOptions: {
+        ssl: {
+          require: true, // Requerir SSL para conexiones seguras
+          rejectUnauthorized: false, // Ignorar la verificación del certificado SSL
+        },
+      },
+      logging: false, // Cambiar a `console.log` para ver las consultas SQL en consola
+    }
+  );
+  
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
